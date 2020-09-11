@@ -6,9 +6,17 @@ const session = require('express-session')
 const socketio = require('socket.io');
 const {v4: uuidv4} = require('uuid');
 const auth = require('../config/auth')
+const {ExpressPeerServer} = require('peer')
+
 
 const app = express();
 const server = require('http').createServer(app);
+
+const peerServer = ExpressPeerServer(server, {
+    debug : true
+});
+
+app.use('/peerjs', peerServer)
 
 require('../config/passport')(passport)
 
